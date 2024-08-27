@@ -40,12 +40,30 @@ exports.createCourse = async (req, res) => {
 
 exports.getAllCourse = async (req, res) => {
     try {
-        
-        const courses = await Course.find();
+        const page = parseInt(req.query.page, 10) || 1;
+        const size = parseInt(req.query.size, 10) || 10;
+
+  
+        if (page < 1 || size < 1) {
+            return res.status(400).json({
+                success: false,
+                message: 'Page and size must be positive integers'
+            });
+        }
+
+        const skip = (page - 1) * size;
+        const limit = size;
+
+        const totalCount = await Course.countDocuments();
+
+        const courses = await Course.find()
+            .skip(skip)
+            .limit(limit);
 
         res.status(200).json({
             success: true,
             message: 'Courses retrieved successfully',
+            totalCount,
             courses
         });
     } catch (error) {
@@ -56,6 +74,7 @@ exports.getAllCourse = async (req, res) => {
         });
     }
 };
+
 
 
 exports.deleteCoursesById = async (req, res) => {
