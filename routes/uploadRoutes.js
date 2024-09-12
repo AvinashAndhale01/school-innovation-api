@@ -7,4 +7,6 @@ const upload = express.Router()
 
 upload.post("/", verifyToken ,uploader.single('file'), uploading);
 
+
+
 module.exports = upload

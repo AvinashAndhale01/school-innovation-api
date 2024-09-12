@@ -2,7 +2,7 @@ const Course = require('../modal/courseModal');
 
 exports.createCourse = async (req, res) => {
     try {
-        const { title, about, img, price, guide, curriculum } = req.body;
+        const { title, about, img, price, guide, curriculum, paymentUrl, duration, aboutCourse } = req.body;
 
         
         if (!title || !about || !img || !price || !guide || !curriculum) {
@@ -18,7 +18,10 @@ exports.createCourse = async (req, res) => {
             img,
             price,
             guide,
-            curriculum
+            curriculum,
+            paymentUrl,
+            duration,
+            aboutCourse
         });
 
         await newCourse.save();
